@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Molecular Viewer</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/molstar/build/viewer/molstar.css">
+    <script src="https://cdn.jsdelivr.net/npm/molstar/build/viewer/molstar.js"></script>
+</head>
+<body>
+    <div id="app"></div>
+    <style>
+        #app {
+            position: absolute;
+            width: 598px;
+            height:670px;
+            
+            
+        }
+    </style>
+
+    <script type="text/javascript">
+        molstar.Viewer.create('app', {
+            layoutIsExpanded: false,
+            layoutShowControls: false,
+            layoutShowRemoteState: false,
+            layoutShowSequence: true,
+            layoutShowLog: false,
+            layoutShowLeftPanel: true,
+    
+            viewportShowExpand: true,
+            viewportShowSelectionMode: false,
+            viewportShowAnimation: false,
+    
+            pdbProvider: 'rcsb',
+            emdbProvider: 'rcsb',
+        }).then(viewer => {
+            // viewer.loadPdb({{pdb}});
+
+            viewer.loadPdb( '{{pdb}}' )
+            // viewer.loadEmdb('EMD-30210', { detail: 6 });
+        });
+    </script>
+</body>
+</html>

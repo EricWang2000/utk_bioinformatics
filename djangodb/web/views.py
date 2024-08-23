@@ -1,11 +1,12 @@
 from django.shortcuts import render, redirect
 from .models import Book
 from .forms import BookForm
+
 from django.contrib import messages
 
 def home(request):
 
-    all_books = Book.objects.all
+    all_books = Book.objects.values_list("author", flat=True).distinct()
     return render(request, "home.html", {"all":all_books})
 
 def join(request):
@@ -29,3 +30,18 @@ def join(request):
     else:
         return render(request, "join.html", {})
 
+def search(request,author):
+    books = Book.objects.filter(author=author)
+    return render(request, "search.html", {
+        "author":author,
+        "title":books
+    })
+
+def mol(request, pdb):
+    # Example PDB file URL, you can use any valid URL or path
+    pdb_url = f'https://files.rcsb.org/download/{pdb}.pdb'
+    
+    return render(request, 'molecular_viewer.html', {
+        # 'pdb_url': pdb_url,
+        "pdb" : pdb
+    })

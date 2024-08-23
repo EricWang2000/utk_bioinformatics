@@ -3,9 +3,8 @@
 {% block content %}
     <h1>Book Database</h1>
 
-
-    {% for item in all%}
-        <p>{{ item.title }}</p>
+    {% for author in all %}
+        <a href="{% url 'search' author %}"> {{ author }} </a>
         <hr>
-    {%endfor%}
+    {% endfor %}
 {% endblock %}
