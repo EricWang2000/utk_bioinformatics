@@ -1,9 +1,12 @@
 from django import forms
-from .models import Book
+from .models import AlphaSum
 
-class BookForm(forms.ModelForm):
+class AlphaSum_Form(forms.ModelForm):
     class Meta:
-        model = Book
-        fields = ["author", "title"]
-
-
+        model = AlphaSum
+        fields = ["name",
+                  "tar_file",
+                  "pdb_file",
+                  "cif_file",
+                  "img",
+                  ]

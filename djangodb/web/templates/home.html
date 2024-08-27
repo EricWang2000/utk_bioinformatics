@@ -1,10 +1,41 @@
-{% extends 'base.html' %}
+{% extends 'base.html' %} {% block content %}
+<h1>Project</h1>
+<br />
+<style>
+  p {
+    display: inline-block;
+    text-align: justify;
+    text-justify: inter-word;
+  }
+  td,
+  th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+  }
+  tr:nth-child(even) {
+    background-color: #dddddd;
+  }
+</style>
 
-{% block content %}
-    <h1>Book Database</h1>
+<table>
+  <tr>
+    {% if all %}
+    <th>Name</th>
+    <th>CIF</th>
+    <th>PDB</th>
+    {% endif %}
+  </tr>
 
-    {% for author in all %}
-        <a href="{% url 'search' author %}"> {{ author }} </a>
-        <hr>
-    {% endfor %}
-{% endblock %}
+  {% for item in all %}
+  <tr>
+    <td><a href="{% url 'view' name=item.name %}">{{item.name}}</a></td>
+   <td><a href="{% url 'open_file' file=item.cif_file%}">CIF</a></td>
+   <td><a href="{% url 'open_file' file=item.pdb_file%}">PDB</a></td>
+   
+  </tr>
+  {% endfor %}
+</table>
+
+   {% endblock %}
+
