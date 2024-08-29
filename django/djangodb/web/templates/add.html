@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<br/>
+<form method="POST" action="{% url 'add' %}" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="mb-3">
+        <label for="name" class="form-label">Id</label>
+        <input type="text" class="form-control" id="name" placeholder="Name" name="name" value="{{ form.name.value }}">
+    </div>
+
+    <div class="mb-3">
+        <label for="tar_file" class="form-label">Upload Tar File</label>
+        <input type="file" class="form-control" id="tar_file" name="tar_file" required>
+    </div>
+
+    <div class="mb-3">
+        <label for="pattern" class="form-label">Pattern</label>
+        <input type="text" class="form-control" id="pattern" placeholder="Default is 'rank_001'" name="pattern">
+    </div>
+    <!-- <div class="mb-3">
+        <label for="pdb_file" class="form-label">Upload PDB File</label>
+        <input type="file" class="form-control" id="pdb_file" name="pdb_file">
+    </div>
+    <div class="mb-3">
+        <label for="cif_file" class="form-label">Upload CIF File</label>
+        <input type="file" class="form-control" id="cif_file" name="cif_file">
+    </div>
+    <div class="mb-3">
+        <label for="img" class="form-label">Upload Image</label>
+        <input type="file" class="form-control" id="img" name="img">
+    </div>
+-->
+    <button type="submit" class="btn btn-secondary">Add</button> 
+</form>
+
+{% endblock %}
