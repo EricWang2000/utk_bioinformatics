@@ -1,0 +1,10 @@
+{
+  "domain": "dev-1p46lhlkacdt507y.us.auth0.com",
+  "clientId": "RaZ1fhJTgMwgY8TInX1nPDgSVzePbB6C",
+  "authorizationParams": {
+    "audience": "https://dev-1p46lhlkacdt507y.us.auth0.com/api/v2/"
+  },
+  "apiUri": "http://localhost:3001",
+  "appUri": "http://localhost:4200",
+  "errorPath": "/error"
+}
