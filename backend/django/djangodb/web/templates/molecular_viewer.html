@@ -1,0 +1,82 @@
+{% include "base.html" %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Molecular Viewer</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/molstar/build/viewer/molstar.css"
+    />
+    <script
+      type="text/javascript"
+      src="https://cdn.jsdelivr.net/npm/molstar/build/viewer/molstar.js"
+    ></script>
+  </head>
+
+  <body>
+    
+    <p class="info">Name: {{name}}</p>
+    {% if tar_file %}
+    <a href="{% url 'open_file' file=tar_file %}" class="info">tar_file</a>
+    <br/>
+
+    {% endif %}
+    {% if cif_file %}
+    <a href="{% url 'open_file' file=cif_file %}" class="info">cif_file</a>
+    <br/>
+    {% endif %}
+    {% if pdb_file %}
+    <a href="{% url 'open_file' file=pdb_file %}" class="info">pdb_file</a>
+    
+    {% endif %}
+
+    
+    <div id="app"></div>
+    <style>
+    .info {
+      margin-left: 50px;
+      margin-top: 0px;
+    }
+
+      #app {
+        position: absolute;
+        margin: 0 auto;
+        width: 598px;
+        height: 670px;
+        /* margin: right -323px;; */
+        /* margin-left: 30%; */
+        margin-top: 10px;
+        margin-left:50px;
+        margin-right:auto;
+
+      }   
+
+    </style>
+  <div class="viewer">
+    <script type="text/javascript">
+      molstar.Viewer.create("app", {
+        layoutIsExpanded: false,
+        layoutShowControls: false,
+        layoutShowRemoteState: false,
+        layoutShowSequence: true,
+        layoutShowLog: false,
+        layoutShowLeftPanel: true,
+        viewportShowExpand: true,
+        viewportShowSelectionMode: false,
+        viewportShowAnimation: false,
+        pdbProvider: "rcsb",
+        emdbProvider: "rcsb",
+      }).then((viewer) => {
+        const path = "http://127.0.0.1:8000/{{ pdb_file }}";
+        
+        viewer.loadStructureFromUrl((url = path), (format = "pdb"));
+      });
+    </script>
+    </div>
+    
+  
+  </body>
+</html>
