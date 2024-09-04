@@ -6,6 +6,8 @@ import { environment as env } from './environments/environment';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { HIGHLIGHT_OPTIONS } from 'ngx-highlightjs';
 import { provideRouter } from '@angular/router';
+import { FileUploadComponent } from './app/file-upload/file-upload.component';
+import { FileDownloadComponent } from './app/file-download/file-download.component';
 
 bootstrapApplication(AppComponent, {
   providers: [
@@ -27,4 +29,10 @@ bootstrapApplication(AppComponent, {
       },
     },
   ],
+});
+bootstrapApplication(FileUploadComponent, {
+  providers: [provideHttpClient()],
+});
+bootstrapApplication(FileDownloadComponent, {
+  providers: [provideHttpClient()],
 });
