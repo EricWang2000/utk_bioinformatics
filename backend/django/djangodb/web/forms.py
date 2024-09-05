@@ -1,8 +1,9 @@
 from django import forms
 from .models import AlphaSum
 from django.contrib.auth.models import Group
+from rest_framework import serializers
 
-class AlphaSum_Form(forms.ModelForm):
+class AlphaSerializer(serializers.ModelSerializer):
     class Meta:
         model = AlphaSum
         fields = ["name",
@@ -12,6 +13,7 @@ class AlphaSum_Form(forms.ModelForm):
                   "cif_file",
                   "img",
                   ]
+    
 from django.contrib.auth.models import Group
 
 class AddGroupForm(forms.ModelForm):

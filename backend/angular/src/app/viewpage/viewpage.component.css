@@ -1,0 +1,20 @@
+
+
+.info {
+margin-left: 50px;
+margin-top: 0px;
+}
+
+#app {
+    position: absolute;
+    margin: 0 auto;
+    width: 598px;
+    height: 670px;
+    /* margin: right -323px;; */
+    /* margin-left: 30%; */
+    margin-top: 10px;
+    margin-left:50px;
+    margin-right:auto;
+
+}   
+
