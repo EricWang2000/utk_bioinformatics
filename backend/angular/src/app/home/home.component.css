@@ -1,0 +1,14 @@
+  p {
+    display: inline-block;
+    text-align: justify;
+    text-justify: inter-word;
+  }
+  td,
+  th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+  }
+  tr:nth-child(even) {
+    background-color: #dddddd;
+  }

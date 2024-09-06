@@ -4,3 +4,4 @@ for folder in uploads/*; do
         rm -rf $file
     done
 done
+

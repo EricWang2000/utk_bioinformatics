@@ -9,6 +9,7 @@ import { AddpageComponent } from './addpage/addpage.component';
 import { FormsModule } from '@angular/forms';
 import { ViewfileComponent } from './viewfile/viewfile.component';
 import { MolstarComponent } from './molstar/molstar.component';
+import { HomeComponent } from './home/home.component';
 
 @NgModule({
   declarations: [
@@ -16,7 +17,8 @@ import { MolstarComponent } from './molstar/molstar.component';
     ViewpageComponent,
     AddpageComponent,
     ViewfileComponent,
-    MolstarComponent
+    MolstarComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,

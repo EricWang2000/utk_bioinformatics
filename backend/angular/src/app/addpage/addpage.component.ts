@@ -1,15 +1,14 @@
 import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router'; // Import Router
-import { query } from 'express';
-import { ActivatedRoute } from '@angular/router';
+
 @Component({
   selector: 'app-addpage',
   templateUrl: './addpage.component.html',
   styleUrl: './addpage.component.css',
 })
 export class AddpageComponent {
-  constructor(private http: HttpClient, private router: Router, private route: ActivatedRoute) {}
+  constructor(private http: HttpClient, private router: Router) {}
 
   name: string = '';
   file: File | null = null;

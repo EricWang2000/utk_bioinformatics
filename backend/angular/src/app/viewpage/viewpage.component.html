@@ -1,56 +1,9 @@
-<!--  -->
 
 <p class="info">Name: {{name}}</p>
-<a [routerLink]="['/file', tar_file]" class="info">tar_file</a>
+<a [routerLink]="['/file', tar_file]" class="info" >tar_file</a>
+
 <br><br>
 <a [routerLink]="['/file', pdb_file]" class="info">pdb_file</a>
 <br><br>
 <a [routerLink]="['/file', cif_file]" class="info">cif_file</a>
 
-
-
-  
-    <style>
-        #app {
-            position: absolute;
-            left: 100px;
-            top: 100px;
-            width: 800px;
-            height: 600px;
-        }
-    </style>
-    <!-- 
-        molstar.js and .css are obtained from
-        - the folder build/viewer after cloning and building the molstar package 
-        - from the build/viewer folder in the Mol* NPM package
-    -->
-   
- 
-    <div id="app"></div>
-    
-    <script type="text/javascript">
-        molstar.Viewer.create('app', {
-            layoutIsExpanded: false,
-            layoutShowControls: false,
-            layoutShowRemoteState: false,
-            layoutShowSequence: true,
-            layoutShowLog: false,
-            layoutShowLeftPanel: true,
-    
-            viewportShowExpand: true,
-            viewportShowSelectionMode: false,
-            viewportShowAnimation: false,
-    
-            pdbProvider: 'rcsb',
-            emdbProvider: 'rcsb',
-        }).then(viewer => {
-            viewer.loadPdb('7bv2');
-            viewer.loadEmdb('EMD-30210', { detail: 6 });
-            path = "http://localhost:4200/file/uploads%2Fpdb%2FCbSAMT_1M6E_def20.pdb"
-            viewer.loadStructureFromUrl((url = path), (format = "pdb"));
-        });
-    </script>
-    
-  
-
-<p>d</p>

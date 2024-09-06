@@ -1,0 +1,24 @@
+<p>home works!</p>
+
+<table>
+    <tbody>
+    <tr>
+      
+      <th>Name</th>
+      <th>TAR</th>
+      <th>CIF</th>
+      <th>PDB</th>
+      
+    </tr>
+<tr *ngFor="let item of res; index as i">
+    
+    <td><a href="javascript:void(0)" (click)="go(i)">{{item.name}}</a></td>
+
+
+    <td><a [routerLink]="['/file', item.tar_file]" class="info">tar_file</a></td>
+    <td><a [routerLink]="['/file', item.cif_file]" class="info">cif_file</a></td>
+    <td><a [routerLink]="['/file', item.pdb_file]" class="info">pdb_file</a></td>
+</tr>
+</tbody>
+</table>
+
