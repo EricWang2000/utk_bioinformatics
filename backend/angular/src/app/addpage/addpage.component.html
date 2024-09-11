@@ -29,7 +29,7 @@
 
      <div class="mb-3">
         <label for="pattern" class="form-label">Pattern</label>
-        <input type="text" class="form-control" id="pattern" placeholder="Default is 'rank_001'" name="pattern">
+        <input type="text" class="form-control" id="pattern" placeholder="Default is 'rank_001'" [(ngModel)]="pattern" name="pattern">
     </div> 
 
     <!-- <div class="mb-3">
@@ -46,7 +46,7 @@
     </div>
 -->
 
-    <button type="submit" class="btn btn-secondary" (click)="save(name, file)" >Add</button> 
+    <button type="submit" class="btn btn-secondary" (click)="save(name, pattern, file)" >Add</button> 
 </form>
 
 

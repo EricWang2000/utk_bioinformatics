@@ -11,6 +11,7 @@ const routes: Routes = [
 
   // { path: 'name/:name?tar_file=:tar_file&pdb_file=:pdb_file&cif_file=:cif_file', component: ViewpageComponent},
   { path: 'name/:name', component: ViewpageComponent},
+  // { path: 'dowload/:name', component: ViewpageComponent},
   { path: 'add', component: AddpageComponent },
   { path: 'file/:file', component: ViewfileComponent},
   { path: "", component: HomeComponent},

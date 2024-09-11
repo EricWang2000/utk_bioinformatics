@@ -5,7 +5,7 @@ import requests # type: ignore
 from django.shortcuts import render, redirect
 from .models import AlphaSum
 from rest_framework.parsers import JSONParser
-from django.http import JsonResponse
+from django.http import HttpResponse, JsonResponse
 from django.conf import settings
 from django.contrib import messages
 from .forms import AlphaSerializer
@@ -21,8 +21,6 @@ def home(request):
         all = AlphaSum.objects.all()
         all_serial = AlphaSerializer(all, many=True)
         return JsonResponse(all_serial.data, safe=False)
-    # return render(request, "home.html", {"all": all})
-    # if request.method == "POST":
 
 def open_file(request, file):
     if request.method == "GET":
@@ -30,9 +28,6 @@ def open_file(request, file):
         with open(filepath, "r") as file_des:
             return JsonResponse({"data": file_des.read()})
         
-    # file_path = os.path.join(settings.BASE_DIR, file)
-    # with open(file_path, "r") as file_des:
-    #     return render(request, "view_file.html", {"file": file_des.read()})
 def unzip(file):
     file = str(file)
     name = file.split(".")[0]
@@ -46,6 +41,7 @@ def alphafill(name, pattern = "rank_001"):
 
     os.makedirs("uploads/pdb", exist_ok=True)
     pdb_path_bad = glob.glob(f"uploads/unzipped/{name}.result/{name}/{pattern}")[0]
+    print(pdb_path_bad)
     pdb_path = f"uploads/pdb/{name}.pdb"
     os.rename(pdb_path_bad, pdb_path)
     files = {
@@ -54,7 +50,6 @@ def alphafill(name, pattern = "rank_001"):
     response = requests.post(ALPHAFILL_URL, files=files).json()
     id = response['id']
 
-    ### ?? 
     while True:
         if requests.get(f"{ALPHAFILL_URL}/{id}/status").json()['status'] == "finished": break
 
@@ -67,16 +62,10 @@ def alphafill(name, pattern = "rank_001"):
 @csrf_exempt
 def add(request):
     if request.method == "POST":
-
-        data = request.POST
-        
+        data = request.POST    
         tar_file = request.FILES.get('file')
-
-        print("eeeeeeeeeeeeeeeee")
-        print(tar_file)
-        print(data)
-        
-
+        pattern = data['pattern']
+        print(pattern)
         input = {
             'name' : data['name'],
             'tar_file' : tar_file,
@@ -87,15 +76,18 @@ def add(request):
         if data_serializer.is_valid():
 
             data_serializer.save()
-            tar_file_name = unzip(tar_file)
-            cif_file, pdb_file = alphafill(tar_file_name)
+            tar_file_name= unzip(tar_file)
+            cif_file, pdb_file = alphafill(tar_file_name, pattern)
             AlphaSum.objects.filter(name=data['name']).update(
                 pdb_file = pdb_file, 
                 cif_file = cif_file
             )
-            
+            print(tar_file)
+          
+            print("EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE")
+            tar = os.path.join('uploads', 'tar', str(tar_file))
             return JsonResponse({'name':data['name'], 
-                                 "tar_file":tar_file_name, 
+                                 "tar_file": tar,
                                  "pdb_file":pdb_file,
                                  "cif_file":cif_file})
 
@@ -105,25 +97,10 @@ def add(request):
         all = AlphaSum.objects.all()
         all_serial = AlphaSerializer(all, many=True)
         return JsonResponse(all_serial.data, safe=False)
-    # else:
-    #     return render(request, "add.html", {})
-
-
-
 def view(request, name):
     data = AlphaSum.objects.get(name=name)
     data_serialized = AlphaSerializer(data)
     return JsonResponse(data_serialized.data, safe=False)
-    return render(request, 'molecular_viewer.html', {
-        "name" : searched.name,
-        "tar_file" : searched.tar_file,
-        "pdb_file" :  searched.pdb_file,
-        "cif_file" :  searched.cif_file,
-        "img" :  searched.img,
-    })
-
-def about(request):
-    return render(request, "about.html", {})
 
 from django.contrib.auth.decorators import login_required
 from .forms import JoinGroupForm
@@ -158,3 +135,10 @@ def add_group(request):
     else:
         form = AddGroupForm()
     return render(request, 'add_group.html', {'form': form})
+
+
+def download_file(request, file_id):
+    file = AlphaSum.objects.get(name=file_id)['pdb_file']
+    response = HttpResponse(file, content_type='application/octet-stream')
+    response['Content-Disposition'] = f'attachment; filename="{file_id}"'
+    return response

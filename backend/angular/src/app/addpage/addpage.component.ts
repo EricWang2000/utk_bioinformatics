@@ -11,6 +11,7 @@ export class AddpageComponent {
   constructor(private http: HttpClient, private router: Router) {}
 
   name: string = '';
+  pattern: string = '';
   file: File | null = null;
   
   
@@ -27,7 +28,7 @@ export class AddpageComponent {
       this.file = null;  // Set file to null if no file is selected
     }
   }
-  save(name : string, file : File | null)
+  save(name : string, pattern: string, file : File | null)
   {
     if (!file) {
       console.error("No file selected.");
@@ -37,9 +38,11 @@ export class AddpageComponent {
     let formData = new FormData();
     formData.append('name', name);
     formData.append('file', file);
+    formData.append('pattern', pattern);
 
     console.log(name)
     console.log(file)
+    console.log(pattern)
     
     this.http.post("http://127.0.0.1:8000/add/", formData).subscribe((result: any )=>{
 

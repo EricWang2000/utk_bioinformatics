@@ -1,0 +1,109 @@
+
+
+# version: '3.8'
+# services:
+#   db:
+#     image: backend
+#     environment:
+#       MARIADB_DATABASE: 'AlphaSum'
+#       MARIADB_USER: 'msshen'
+#       MARIADB_PASSWORD: 'root'
+#       MARIADB_ROOT_PASSWORD: 'root'
+#     ports:
+#       - "3306:3306"
+#     command: python manage.py runserver 0.0.0.0:8000
+
+#   app-backend:
+#     build: ./angular/
+#     image: frontend
+#     container_name: front
+    
+#     environment:
+#       MARIADB_DATABASE: 'AlphaSum'
+#       MARIADB_USER: 'msshen'
+#       MARIADB_PASSWORD: 'root'
+#       # MARIADB_HOST: 'db'  # Use the service name "db" as the host
+#     depends_on:
+#       - db
+#     ports:
+#       - "8000:8000"
+    
+
+# version: '3.8'
+
+# services:
+#   db:
+#     image: mariadb
+#     environment:
+#       MARIADB_ROOT_PASSWORD: root
+#       MYSQL_DATABASE: AlphaSum
+#       MYSQL_USER: msshen
+#       MYSQL_PASSWORD: root
+#     networks:
+#       - app
+#   django:
+#     build: ./django/djangodb/
+#     command: python django/djangodb/manage.py runserver 0.0.0.0:8000
+#     volumes:
+#       - .:/code
+#     ports: 
+#       - "8000:8000"
+#     networks: 
+#       - app
+#     depends_on:
+#       - db
+#   angular:
+#     build: ./angular/
+#     ports:
+#       - "4200:4200"
+#     networks:
+#       - app
+#     depends_on:
+#       - django
+# networks:
+#   app:
+
+version: '3.8'
+
+services:
+  db:
+    image: mariadb
+    restart: always
+    environment:
+      MARIADB_ROOT_PASSWORD: root
+      MYSQL_DATABASE: AlphaSum
+      MYSQL_USER: msshen
+      MYSQL_PASSWORD: root
+    ports:
+      - "3306:3306"
+    volumes:
+      - db_data:/var/lib/MARIADB
+
+  web:
+    build: ./django/djangodb/
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/code
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    
+    environment:
+      - DB_HOST=db
+      - DB_NAME=AlphaSum
+      - DB_USER=msshen
+      - DB_PASSWORD=root
+  angular:
+    build: ./angular/
+    ports:
+      - "4200:4200"
+    networks:
+      - app
+    depends_on:
+      - web
+networks:
+  app:
+
+volumes:
+  db_data:
