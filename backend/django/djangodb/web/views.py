@@ -7,6 +7,7 @@ from .models import AlphaSum
 from .forms import AlphaSum_Form
 from django.conf import settings
 from django.contrib import messages
+from django.views.decorators.csrf import csrf_exempt
 
 ALPHAFILL_URL = "https://alphafill.eu/v1/aff"
 
@@ -51,6 +52,7 @@ def alphafill(name, pattern = "rank_001"):
         f.write(response)
     return cif_path, pdb_path
 
+@csrf_exempt
 def add(request):
     if request.method == "POST":
         form = AlphaSum_Form(request.POST, request.FILES or None)
