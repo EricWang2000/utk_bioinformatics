@@ -1,21 +1,40 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class FileService {
-  private baseUrl = 'http://localhost:8000/fileapp'; // Flask API URL
+  private baseUrl = 'http://localhost:8000';  // Django API URL
 
   constructor(private http: HttpClient) {}
 
-  // Upload file
-  uploadFile(file: File): Observable<any> {
-    const formData = new FormData();
-    formData.append('file', file);
+  // Helper method to get the CSRF token from cookies
+  getCsrfToken(): string | null {
+    const name = 'csrftoken';
+    const cookies = document.cookie.split(';');
+    for (let i = 0; i < cookies.length; i++) {
+      const cookie = cookies[i].trim();
+      if (cookie.startsWith(`${name}=`)) {
+        return cookie.substring(name.length + 1);
+      }
+    }
+    return null;
+  }
 
-    return this.http.post(`${this.baseUrl}/upload`, formData);
+  // Upload the file and form data to the backend
+  uploadFile(formData: FormData): Observable<any> {
+    const csrfToken = this.getCsrfToken();  // Get the CSRF token from the cookies
+    const headers = new HttpHeaders({
+      'X-CSRFToken': csrfToken || '',  // Add CSRF token to the headers
+    });
+
+    // Send formData as POST request
+    return this.http.post(`${this.baseUrl}/add/`, formData, {
+      headers,
+      responseType: 'text',  // Since Django renders HTML, expect 'text' response
+    });
   }
 
   // Download file
