@@ -6,6 +6,8 @@ import { ProfileComponent } from './pages/profile/profile.component';
 import { ExternalApiComponent } from './pages/external-api/external-api.component';
 import { ErrorComponent } from './pages/error/error.component';
 import { authGuardFn } from '@auth0/auth0-angular';
+import { FileUploadComponent } from './file-upload/file-upload.component';
+import { FileDownloadComponent } from './file-download/file-download.component';
 
 export const routes: Routes = [
   {
@@ -27,4 +29,6 @@ export const routes: Routes = [
     component: HomeComponent,
     pathMatch: 'full',
   },
+  { path: 'upload', component: FileUploadComponent },
+  { path: 'download', component: FileDownloadComponent },
 ];
