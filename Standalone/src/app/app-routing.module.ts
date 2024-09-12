@@ -8,6 +8,7 @@ import { ErrorComponent } from './pages/error/error.component';
 import { authGuardFn } from '@auth0/auth0-angular';
 import { FileUploadComponent } from './file-upload/file-upload.component';
 import { FileDownloadComponent } from './file-download/file-download.component';
+import { FileViewComponent } from './file-view/file-view.component';
 
 export const routes: Routes = [
   {
@@ -31,4 +32,5 @@ export const routes: Routes = [
   },
   { path: 'upload', component: FileUploadComponent },
   { path: 'download', component: FileDownloadComponent },
+  { path: 'file/:file', component: FileViewComponent }, // added
 ];

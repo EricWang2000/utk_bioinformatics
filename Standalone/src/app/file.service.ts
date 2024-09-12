@@ -43,4 +43,8 @@ export class FileService {
       responseType: 'blob', // Ensures the response is treated as a file
     });
   }
+  // View file
+  viewFile(filename: string) {
+    return this.http.get(`${this.baseUrl}/${filename}`);
+  }
 }

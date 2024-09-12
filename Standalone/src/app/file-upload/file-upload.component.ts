@@ -31,12 +31,12 @@ export class FileUploadComponent {
 
   // Handle file upload
   upload(): void {
-    if (this.selectedFile && this.name && this.pattern) {
+    if (this.selectedFile && this.name) {
       const formData = new FormData();
       formData.append('tar_file', this.selectedFile);  // Add the file to the form data
       formData.append('name', this.name);              // Add the name field
       formData.append('pattern', this.pattern);        // Add the pattern field
-
+      
       this.fileService.uploadFile(formData).subscribe(
         (response) => {
           // Handle success as needed (Django might redirect or render a template)
