@@ -8,20 +8,10 @@ urlpatterns = [
     path("join-group/", views.join_group, name='join_group'),
     path("my-group/", views.group_list, name='group_list'),
   
-    path("about/", views.about, name="about"),
     path("name=<name>", views.view, name="view"),
+    path("download/<file>", views.download_file, name="download"),
+    # path("about/", views.about, name="about"),
 
     path("<path:file>", views.open_file, name='open_file'),
-    
 
-  
 ]
-
-
-"""
-search page
-view whole page
-
-smiles/name/seq/id_serach = <id>
-
-"""
