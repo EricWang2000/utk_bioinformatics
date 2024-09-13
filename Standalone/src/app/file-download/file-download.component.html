@@ -1,1 +1,31 @@
-<p>file-download works!</p>
+<div class="container mt-5">
+    <h2 class="text-center">Download a File</h2>
+
+    <!-- File download form -->
+    <form (ngSubmit)="download()">
+        <div class="form-group">
+            <label for="filename">Enter file name:</label>
+            <input
+                type="text"
+                id="filename"
+                class="form-control"
+                [(ngModel)]="filename"
+                name="filename"
+                placeholder="Enter the file name"
+                required
+            />
+        </div>
+
+        <button type="submit" class="btn btn-primary mt-3" [disabled]="!filename">Download File</button>
+
+        <!-- Error message if download fails -->
+        <div *ngIf="error" class="alert alert-danger mt-3">
+            {{ error }}
+        </div>
+    </form>
+
+    <!-- Download link will appear if the file is ready to download -->
+    <div *ngIf="downloadUrl" class="mt-3">
+        <a [href]="downloadUrl" class="btn btn-success" download="{{ filename }}">Click to download {{ filename }}</a>
+    </div>
+</div>
