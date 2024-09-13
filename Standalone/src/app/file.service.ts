@@ -39,7 +39,7 @@ export class FileService {
 
   // Download file
   downloadFile(filename: string): Observable<Blob> {
-    return this.http.get(`${this.baseUrl}/download/${filename}`, {
+    return this.http.get(`${this.baseUrl}/download_file/${filename}`, {
       responseType: 'blob', // Ensures the response is treated as a file
     });
   }

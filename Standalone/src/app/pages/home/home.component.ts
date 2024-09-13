@@ -5,6 +5,7 @@ import { HeroComponent } from './../../components/hero/hero.component';
 import { LoadingComponent } from './../../components/loading/loading.component';
 import { AsyncPipe, NgIf } from '@angular/common';
 import { FileUploadComponent } from 'src/app/file-upload/file-upload.component';
+import { FileDownloadComponent } from 'src/app/file-download/file-download.component';
 
 @Component({
   selector: 'app-home',
@@ -17,7 +18,8 @@ import { FileUploadComponent } from 'src/app/file-upload/file-upload.component';
     LoadingComponent,
     AsyncPipe,
     NgIf,
-    FileUploadComponent // added
+    FileUploadComponent, // added
+    FileDownloadComponent
   ]
 })
 export class HomeComponent {

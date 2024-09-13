@@ -5,7 +5,7 @@ import requests # type: ignore
 from django.shortcuts import render, redirect
 from .models import AlphaSum
 from rest_framework.parsers import JSONParser
-from django.http import HttpResponse, JsonResponse
+from django.http import HttpResponse, JsonResponse, Http404
 from django.conf import settings
 from django.contrib import messages
 from .forms import AlphaSerializer
@@ -153,9 +153,20 @@ def add_group(request):
         form = AddGroupForm()
     return render(request, 'add_group.html', {'form': form})
 
-
 def download_file(request, file_id):
-    file = AlphaSum.objects.get(name=file_id)['pdb_file']
-    response = HttpResponse(file, content_type='application/octet-stream')
-    response['Content-Disposition'] = f'attachment; filename="{file_id}"'
-    return response
+    try:
+        # Retrieve the AlphaSum instance based on the file_id (name in this case)
+        alpha_sum_instance = AlphaSum.objects.get(name=file_id)
+
+        # Access the pdb_file from the AlphaSum instance
+        file = alpha_sum_instance.pdb_file
+
+        # If the file exists, create an HTTP response to download the file
+        if file:
+            response = HttpResponse(file, content_type='application/octet-stream')
+            response['Content-Disposition'] = f'attachment; filename="{file.name}"'
+            return response
+        else:
+            raise Http404("File not found")
+    except AlphaSum.DoesNotExist:
+        raise Http404("File not found in the database")
