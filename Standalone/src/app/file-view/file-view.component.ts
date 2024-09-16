@@ -19,12 +19,14 @@ export class FileViewComponent implements OnInit{
   ngOnInit(): void {
 
     this.route.paramMap.subscribe(params => {this.filename = params.get('file') || "e";});
+
     this.check()
   }
   
   check() {
     this.fileservices.viewFile(this.filename).subscribe((res: any) =>{
       this.data = res.data
+      console.log(this.data)
      
     if (this.data == "M" ) {
       this.statusMessage = 'File Missing.';

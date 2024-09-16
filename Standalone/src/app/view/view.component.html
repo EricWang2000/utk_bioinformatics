@@ -1,0 +1,48 @@
+<p> {{ cif }}</p>
+<button (click)="goto( cif)" >click </button>
+<!-- <a href (click)="goto(cif)">click</a> -->
+
+
+
+
+<style>
+  #app {
+      position: absolute;
+      left: 100px;
+      top: 100px;
+      width: 800px;
+      height: 600px;
+  }
+</style>
+<!-- 
+<link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/molstar/build/viewer/molstar.css"
+    />
+    <script
+      type="text/javascript"
+      src="https://cdn.jsdelivr.net/npm/molstar/build/viewer/molstar.js"
+    ></script>
+
+<div id="app"></div>
+
+<script type="text/javascript">
+  molstar.Viewer.create('app', {
+      layoutIsExpanded: false,
+      layoutShowControls: false,
+      layoutShowRemoteState: false,
+      layoutShowSequence: true,
+      layoutShowLog: false,
+      layoutShowLeftPanel: true,
+
+      viewportShowExpand: true,
+      viewportShowSelectionMode: false,
+      viewportShowAnimation: false,
+
+      pdbProvider: 'rcsb',
+      emdbProvider: 'rcsb',
+  }).then(viewer => {
+      viewer.loadPdb('7bv2');
+      viewer.loadEmdb('EMD-30210', { detail: 6 });
+  });
+</script> -->

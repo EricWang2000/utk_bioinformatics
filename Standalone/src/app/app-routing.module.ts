@@ -9,6 +9,8 @@ import { authGuardFn } from '@auth0/auth0-angular';
 import { FileUploadComponent } from './file-upload/file-upload.component';
 import { FileDownloadComponent } from './file-download/file-download.component';
 import { FileViewComponent } from './file-view/file-view.component';
+import { ViewChildren } from '@angular/core';
+import { ViewComponent } from './view/view.component';
 
 export const routes: Routes = [
   {
@@ -30,7 +32,9 @@ export const routes: Routes = [
     component: HomeComponent,
     pathMatch: 'full',
   },
+  { path: 'name/:name', component: ViewComponent }, // added
   { path: 'upload', component: FileUploadComponent },
   { path: 'download', component: FileDownloadComponent },
   { path: 'file/:file', component: FileViewComponent }, // added
+  
 ];

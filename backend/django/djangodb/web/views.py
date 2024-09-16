@@ -27,6 +27,7 @@ def open_file(request, file):
         messages.success(request, "lol")
         print("#")
         filepath = os.path.join(settings.BASE_DIR, file)
+        print(filepath)
         if filepath.endswith('.zip'):
             return JsonResponse({"data": "Z"})
         if not os.path.exists(filepath):
@@ -153,10 +154,10 @@ def add_group(request):
         form = AddGroupForm()
     return render(request, 'add_group.html', {'form': form})
 
-def download_file(request, file_id):
+def download_file(request, name):
     try:
         # Retrieve the AlphaSum instance based on the file_id (name in this case)
-        alpha_sum_instance = AlphaSum.objects.get(name=file_id)
+        alpha_sum_instance = AlphaSum.objects.get(name=name)
 
         # Access the pdb_file from the AlphaSum instance
         file = alpha_sum_instance.pdb_file

@@ -17,6 +17,7 @@ export class FileDownloadComponent {
   filename: string = '';  // Two-way binding to filename input
   downloadUrl: string | null = null;  // Download URL
   error: string | null = null;  // Error message
+  data: any;
 
   constructor(private fileService: FileService) {}
 
@@ -31,10 +32,25 @@ export class FileDownloadComponent {
     }
 
     // Call the service to download the file
-    this.fileService.downloadFile(this.filename).subscribe({
-      next: (blob: Blob) => {
+    this.fileService.viewFile(this.filename).subscribe({
+      next: (res: any) => {
+        this.data = res.data;
+  
+        const blob = new Blob([this.data], { type: 'application/octet-stream' }); // Adjust MIME type as needed
+
+        // Create a URL for the Blob
         const url = window.URL.createObjectURL(blob);
-        this.downloadUrl = url;
+
+        // Create a download link
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = this.filename; // Set the filename for download
+        document.body.appendChild(a);
+        a.click();
+
+        // Cleanup
+        document.body.removeChild(a);
+        window.URL.revokeObjectURL(url);
       },
       error: (err) => {
         console.error('Error downloading file', err);

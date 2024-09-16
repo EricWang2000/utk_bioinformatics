@@ -39,12 +39,16 @@ export class FileService {
 
   // Download file
   downloadFile(filename: string): Observable<Blob> {
-    return this.http.get(`${this.baseUrl}/download_file/${filename}`, {
+    return this.http.get(`${this.baseUrl}/download/${filename}`, {
       responseType: 'blob', // Ensures the response is treated as a file
     });
   }
   // View file
   viewFile(filename: string) {
     return this.http.get(`${this.baseUrl}/${filename}`);
+  }
+
+  viewPage(name: string) {
+    return this.http.get(`${this.baseUrl}/name=${name}`);
   }
 }
