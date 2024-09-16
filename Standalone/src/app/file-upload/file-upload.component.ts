@@ -4,6 +4,7 @@ import { HttpHeaders } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';  // Import FormsModule
+import { RouterModule } from '@angular/router';
 
 
 @Component({
@@ -11,7 +12,7 @@ import { FormsModule } from '@angular/forms';  // Import FormsModule
   standalone: true,
   templateUrl: './file-upload.component.html', // Reference to the HTML file
   styleUrls: ['./file-upload.component.css'],  // Reference to the CSS file
-  imports: [CommonModule, HttpClientModule, FormsModule],   // Import CommonModule and HttpClientModule
+  imports: [CommonModule, HttpClientModule, FormsModule, RouterModule],   // Import CommonModule and HttpClientModule
 })
 export class FileUploadComponent {
   selectedFile: File | null = null;  // The file to be uploaded
