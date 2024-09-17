@@ -1,44 +1,33 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FileService } from '../file.service';
+import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
+import { FileService } from '../file.service';
 
 @Component({
   selector: 'app-file-view',
   standalone: true,
+  imports: [CommonModule],
   templateUrl: './file-view.component.html',
   styleUrl: './file-view.component.css',
-  imports: [CommonModule],
 })
-export class FileViewComponent implements OnInit{
-  filename: string = '';
-  data: string = '';
-  statusMessage: string = ''; 
-  constructor (private fileservices: FileService, private route: ActivatedRoute) {}
-
+export class FileViewComponent implements OnInit {
+  constructor(
+    private http: HttpClient,
+    private route: ActivatedRoute,
+    private fileService: FileService
+  ) {}
+  file: string | null = null;
+  data: string | null = null;
   ngOnInit(): void {
-
-    this.route.paramMap.subscribe(params => {this.filename = params.get('file') || "e";});
-
-    this.check()
+    this.route.paramMap.subscribe((params) => {
+      this.file = params.get('file') || 'e';
+    });
+    this.view();
   }
-  
-  check() {
-    this.fileservices.viewFile(this.filename).subscribe((res: any) =>{
-      this.data = res.data
-      console.log(this.data)
-     
-    if (this.data == "M" ) {
-      this.statusMessage = 'File Missing.';
-    } else if (this.data == "Z") {
-      this.statusMessage = 'Can not view zip file.';
-    }
-  })
-}
-
-    
-  
-
-  
-  
+  view() {
+    this.fileService.viewFile(this.file).subscribe((result: any) => {
+      this.data = result.data;
+    });
+  }
 }

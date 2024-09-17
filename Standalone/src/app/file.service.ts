@@ -33,7 +33,7 @@ export class FileService {
     // Send formData as POST request
     return this.http.post(`${this.baseUrl}/add/`, formData, {
       headers,
-      responseType: 'text',  // Since Django renders HTML, expect 'text' response
+      responseType: 'json',  // Since Django renders HTML, expect 'text' response
     });
   }
 

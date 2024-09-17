@@ -1,21 +1,75 @@
-<p> {{ cif }}</p>
-<button (click)="goto( cif)" >click </button>
-<!-- <a href (click)="goto(cif)">click</a> -->
 
+<p class="info">{{name}}</p>
+<!-- <a [routerLink]="['/file', tar_file]" class="info" >tar_file</a> -->
+<br>
+<a [routerLink]="['/file', tar]" class="info">tar_file</a>
+<a href="javascript:void(0)" class="icon-button" (click)="download(tar)">
+  <span class="material-icons">download</span>
+</a>
 
+<br>
+<a [routerLink]="['/file', cif]" class="info">cif_file</a>
+<a href="javascript:void(0)" class="icon-button" (click)="download(cif)">
+  <span class="material-icons">download</span>
+</a>
 
+<br>
+<a [routerLink]="['/file', pdb]" class="info">pdb_file</a>
+<a href="javascript:void(0)" class="icon-button" (click)="download(pdb)">
+  <span class="material-icons">download</span>
+</a>
 
 <style>
+  .info {
+  margin-right: 0px; /* Space between the link and the icon */
+  margin-top: -5px; /* Space between the link and the icon */
+  text-decoration: none; /* Optional: remove underline from link */
+}
+
+.icon-button {
+  background: none;
+  border: none;
+  padding: 2px; /* Make the clickable area smaller */
+  margin: 0;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  vertical-align: middle; /* Aligns the button next to the text */
+  justify-content: center;
+  position: relative;
+}
+
+.icon-button .material-icons {
+  font-size: 16px; /* Smaller icon size */
+}
+
+.icon-button:focus {
+  outline: none; /* Remove focus outline */
+}
+
+  /* Optional for overall page layout */
   #app {
-      position: absolute;
-      left: 100px;
-      top: 100px;
-      width: 800px;
-      height: 600px;
+    position: absolute;
+    left: 100px;
+    top: 100px;
+    width: 800px;
+    height: 600px;
   }
 </style>
-<!-- 
-<link
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/molstar/build/viewer/molstar.css"
     />
