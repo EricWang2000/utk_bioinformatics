@@ -1,0 +1,11 @@
+#!/usr/bin/expect
+if { $argc < 1 } {
+   puts "Usage: script.exp <file>"
+      exit 1
+}
+set file [ lindex $argv 0 ]
+spawn scp -r "$file" bioutk@96.38.97.53:/Users/bioutk/Desktop
+set pass "bioutk1"
+expect {
+password: {send "$pass\r"; exp_continue}
+          }

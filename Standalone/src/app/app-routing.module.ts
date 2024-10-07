@@ -12,10 +12,12 @@ import { FileDownloadComponent } from './file-download/file-download.component';
 import { ViewChildren } from '@angular/core';
 import { ViewComponent } from './view/view.component';
 import { FileViewComponent } from './file-view/file-view.component';
+import { FastaComponent } from './fasta/fasta.component';
 
 export const routes: Routes = [
 
   
+  { path: 'id/:id', component: FastaComponent},
   { path: 'file/:file', component: FileViewComponent},
   { path: 'name/:name', component: ViewComponent }, // added
   { path: 'upload', component: FileUploadComponent },

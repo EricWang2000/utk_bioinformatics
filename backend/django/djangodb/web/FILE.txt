@@ -1,0 +1,13 @@
+2024-09-27 10:00:47,666 Running colabfold 1.5.5 (4e198f5cecc6a808daa6baf7441899e5e76f7b9e)
+2024-09-27 10:00:47,847 Running on GPU
+2024-09-27 10:00:48,367 Found 8 citations for tools or databases
+2024-09-27 10:00:48,367 Query 1/1: CbSAMT_1M6E (length 359)
+2024-09-27 10:00:54,194 Sequence 0 found templates: ['1m6e_X', '6lyh_G', '6lyh_D', '6lyh_H', '6lyh_A', '6lyh_B', '6lyh_C', '6lyh_F', '2efj_A', '2eg5_E', '6c8s_B', '2eg5_G', '6lyi_B', '2eg5_A', '6lyi_A', '3b5i_A', '3b5i_B', '5f2o_A', '5f2k_A']
+2024-09-27 10:00:55,230 Setting max_seq=512, max_extra_seq=4735
+2024-09-27 10:00:55,253 Could not predict CbSAMT_1M6E. Not Enough GPU memory? FAILED_PRECONDITION: DNN library initialization failed. Look at the errors above for more details.
+2024-09-27 10:00:55,254 Done
+-- Running AlphaFold on t. Outputs in 't/'. --
+-- AlphaFold completed. Transfering files. --
+-- t done --
+DONE
+

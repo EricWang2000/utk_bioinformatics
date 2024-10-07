@@ -1,0 +1,29 @@
+#!/usr/bin/expect
+set timeout -1
+# spawn ssh bioutk@96.38.97.53 -p 2200
+spawn ssh yvy976@tesla2.eecs.utk.edu
+
+
+# set pass "bioutk1"
+set pass "T170000777!!"
+
+expect {
+    "Password:" {
+        send "$pass\r"
+    }
+}
+
+expect "> "
+
+send "export PATH=\"/home/yvy976/localcolabfold/colabfold-conda/bin:\$PATH\"\r"
+
+expect "> "
+send "python run.py --fa fa_files/\r"
+expect "> "
+
+
+#expect "DONE"
+
+# send "exit\r"
+
+# expect eof

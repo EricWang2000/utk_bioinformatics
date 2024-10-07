@@ -51,4 +51,8 @@ export class FileService {
   viewPage(name: string) {
     return this.http.get(`${this.baseUrl}/name=${name}`);
   }
+
+  progress(id: string){
+    return this.http.get(`${this.baseUrl}/task/${id}`);
+  }
 }

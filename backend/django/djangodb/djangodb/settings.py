@@ -3,6 +3,7 @@ import os
 from pathlib import Path
 load_dotenv()
 BASE_DIR = Path(__file__).resolve().parent.parent
+# os.environ.setdefault('FORKED_BY_MULTIPROCESSING', '1')
 SECRET_KEY = os.getenv('DJANGO_KEY')
 DEBUG = True
 ALLOWED_HOSTS = []
@@ -87,3 +88,6 @@ USE_I18N = True
 USE_TZ = True
 STATIC_URL = '/static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+CELERY_BROKER_URL = "redis://127.0.0.1:6379/0"
+CELERY_RESULT_BACKEND = "redis://127.0.0.1:6379/0"

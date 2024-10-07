@@ -33,29 +33,39 @@ export class FileUploadComponent {
   upload(): void {
     if (this.selectedFile && this.name) {
       const formData = new FormData();
-      formData.append('tar_file', this.selectedFile); // Add the file to the form data
+      formData.append('file', this.selectedFile); // Add the file to the form data
       formData.append('name', this.name); // Add the name field
       formData.append('pattern', this.pattern); // Add the pattern field
-
-      this.fileService.uploadFile(formData).subscribe(
-        (result: any) => {
-          const tar = result.name;
-          // Handle success as needed (Django might redirect or render a template)
-          this.statusMessage = 'File uploaded successfully!'; // Assuming success
-          this.router.navigate(['/name', result.name], {
-            queryParams: {
-              tar_file: result.tar_file,
-              pdb_file: result.pdb_file,
-              cif_file: result.cif_file,
-            },
-          });
-        },
-        (error) => {
-          // Handle error response (Django might return an error page)
-          this.statusMessage = 'Error uploading file.';
-          console.error(error);
-        }
-      );
+      console.log(this.selectedFile.name.endsWith('pdb'));
+      if (this.selectedFile.name.endsWith('.zip')) {
+        this.fileService.uploadFile(formData).subscribe(
+          (result: any) => {
+            const tar = result.name;
+            // Handle success as needed (Django might redirect or render a template)
+            this.statusMessage = 'File uploaded successfully!'; // Assuming success
+            this.router.navigate(['/name', result.name], {
+              queryParams: {
+                tar_file: result.tar_file,
+                unzipped: result.unzipped,
+                pdb_file: result.pdb_file,
+                cif_file: result.cif_file,
+              },
+            });
+          },
+          (error) => {
+            // Handle error response (Django might return an error page)
+            this.statusMessage = 'Error uploading file.';
+            console.error(error);
+          }
+        );
+      }
+      else {
+        this.fileService.uploadFile(formData).subscribe(
+          (result: any) => {
+            this.router.navigate(['/id', result.task_id])
+      });
+    };
+    
     } else {
       this.statusMessage = 'Please fill in all fields and select a file.';
     }

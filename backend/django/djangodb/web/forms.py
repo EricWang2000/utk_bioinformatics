@@ -8,6 +8,8 @@ class AlphaSerializer(serializers.ModelSerializer):
         model = AlphaSum
         fields = ["name",
                   "group",
+                  "fasta_file",
+                  "unzipped",
                   "tar_file",
                   "pdb_file",
                   "cif_file",

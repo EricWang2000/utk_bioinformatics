@@ -9,6 +9,7 @@ import { provideRouter } from '@angular/router';
 import { FileUploadComponent } from './app/file-upload/file-upload.component';
 import { FileDownloadComponent } from './app/file-download/file-download.component';
 
+
 bootstrapApplication(AppComponent, {
   providers: [
     provideHttpClient(withInterceptors([authHttpInterceptorFn])),
@@ -27,7 +28,7 @@ bootstrapApplication(AppComponent, {
           json: () => import('highlight.js/lib/languages/json'),
         },
       },
-    },
+    }
   ],
 });
 bootstrapApplication(FileUploadComponent, {

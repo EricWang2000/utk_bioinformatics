@@ -10,6 +10,8 @@ from django.conf import settings
 from django.contrib import messages
 from .forms import AlphaSerializer
 from django.views.decorators.csrf import csrf_exempt
+from .tasks import *
+from .tasks import lol
 
 
 
@@ -36,8 +38,8 @@ def open_file(request, file):
             return JsonResponse({"data": file_des.read()})
         
         
-        
-def unzip(file):
+       
+def unzip(file): 
     file = str(file)
     name = file.split(".")[0]
     file_path = os.path.join(settings.BASE_DIR, 'uploads', "tar", file)
@@ -61,6 +63,7 @@ def alphafill(name, pattern = "rank_001"):
 
     while True:
         if requests.get(f"{ALPHAFILL_URL}/{id}/status").json()['status'] == "finished": break
+        
 
     response = requests.get(f"{ALPHAFILL_URL}/{id}").text
     cif_path = f"uploads/cif/{name}.cif"
@@ -72,53 +75,110 @@ def alphafill(name, pattern = "rank_001"):
 def add(request):
     if request.method == "POST":
         data = request.POST    
-        tar_file = request.FILES.get('tar_file')
+        
+        tar_file = request.FILES.get('file')
         pattern = data['pattern']
-        print("EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE")
-        print(pattern)
-        print(tar_file)
-        print("EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE")
-        input = {
-            'name' : data['name'],
-            'tar_file' : tar_file,
-            # 'pdb_file' : pdb_file, 
-            # 'cif_file' : cif_file
-        }
-        os.makedirs("uploads", exist_ok=True)
-        os.makedirs("uploads/pdb", exist_ok=True)
-        os.makedirs("uploads/cif", exist_ok=True)
-        os.makedirs("uploads/tar", exist_ok=True)
-        os.makedirs("uploads/unzipped", exist_ok=True)
-        data_serializer = AlphaSerializer(data=input)
-        if data_serializer.is_valid():
+        
+       
+        if str(tar_file).endswith(".zip"):
 
-            data_serializer.save()
-            tar_file_name= unzip(tar_file)
-            cif_file, pdb_file = alphafill(tar_file_name, pattern)
-            AlphaSum.objects.filter(name=data['name']).update(
-                pdb_file = pdb_file, 
-                cif_file = cif_file
-            )
-            print(tar_file)
-          
-            
-            tar = os.path.join('uploads', 'tar', str(tar_file))
-            
-            return JsonResponse({'name':data['name'], 
-                                 "tar_file": tar,
-                                 "pdb_file":pdb_file,
-                                 "cif_file":cif_file})
+        
 
-        return JsonResponse("some thing wrong", safe=False)
+
+            input = {
+                'name' : data['name'],
+                'tar_file' : tar_file,
+                # 'pdb_file' : pdb_file, 
+                # 'cif_file' : cif_file
+            }
+            os.makedirs("uploads", exist_ok=True)
+            os.makedirs("uploads/pdb", exist_ok=True)
+            os.makedirs("uploads/cif", exist_ok=True)
+            os.makedirs("uploads/tar", exist_ok=True)
+            os.makedirs("uploads/unzipped", exist_ok=True)
+            data_serializer = AlphaSerializer(data=input)
+            if data_serializer.is_valid():
+
+                data_serializer.save()
+                tar_file_name= unzip(tar_file)
+               
+                # tar_file_name= unzip_task.delay(tar_file)
+                # cif_file, pdb_file = alphafill(tar_file_name, pattern)
+                # time.sleep(20)
+                
+                alphafill_async = alphafill_task.delay(tar_file_name, pattern)
+                cif_file, pdb_file = alphafill_async.get()
+                unzipped = os.path.join('uploads', 'unzipped', f'{tar_file_name}.result')
+                # print(unzipped,333333333333333333333333333333333333333333333)
+                AlphaSum.objects.filter(name=data['name']).update(
+                    unzipped = unzipped,
+                    pdb_file = pdb_file, 
+                    cif_file = cif_file
+                )
+                
+            
+
+                tar = os.path.join('uploads', 'tar', str(tar_file))
+                
+                return JsonResponse({'name':data['name'], 
+                                    "tar_file": tar,
+                                    "unzipped": unzipped,
+                                    "pdb_file":pdb_file,
+                                    "cif_file":cif_file})
+        elif str(tar_file).endswith(".fa"):
+            task = lolzerr.delay()
+            return JsonResponse({'task_id': task.id})
+        else:
+            return JsonResponse("some thing wrong", safe=False)
         
     if request.method == "GET":
         all = AlphaSum.objects.all()
         all_serial = AlphaSerializer(all, many=True)
+        
         return JsonResponse(all_serial.data, safe=False)
+    
+from celery.result import AsyncResult
+from celery_progress.backend import Progress
+
+def get_task_status(request, task_id):
+    task_result = AsyncResult(task_id)
+    if task_result.state == 'PROGRESS':
+        progress = Progress(task_result)  # Get the progress data
+        response_data = {
+            'state': task_result.state,
+            'progress': progress.get_info(),  # This includes the current and total progress
+   
+         
+        }
+    elif task_result.state == 'SUCCESS':
+        progress = Progress(task_result)  # Get the progress data
+
+        response_data = {
+            'state': task_result.state,
+            'progress': progress.get_info(),  # Task result if completed
+            # 'meta': task_result.result, 
+            
+        }
+    else:
+        response_data = {
+            'state': task_result.state,  # E.g., PENDING or FAILURE
+            'result': str(task_result.result)  # Error message if failed
+        }
+
+    return JsonResponse(response_data)
+
+
+import time
 def view(request, name):
     data = AlphaSum.objects.get(name=name)
     data_serialized = AlphaSerializer(data)
+    
+    
     return JsonResponse(data_serialized.data, safe=False)
+    # result = get_alpha_data.delay(name) 
+    # data_serialized = result.get() 
+    # return JsonResponse(data_serialized.data, safe=False)
+    
 
 from django.contrib.auth.decorators import login_required
 from .forms import JoinGroupForm

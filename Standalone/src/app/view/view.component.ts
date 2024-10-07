@@ -14,7 +14,7 @@ export class ViewComponent {
   name: string = '';
   cif: string;
   pdb: string;
-  tar: string;
+  tar: string;z
   data: string;
   constructor(
     private fileService: FileService,
