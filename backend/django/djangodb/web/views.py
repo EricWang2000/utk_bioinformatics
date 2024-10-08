@@ -101,13 +101,9 @@ def add(request):
 
                 data_serializer.save()
                 tar_file_name= unzip(tar_file)
-               
-                # tar_file_name= unzip_task.delay(tar_file)
-                # cif_file, pdb_file = alphafill(tar_file_name, pattern)
-                # time.sleep(20)
-                
-                alphafill_async = alphafill_task.delay(tar_file_name, pattern)
-                cif_file, pdb_file = alphafill_async.get()
+       
+                cif_file, pdb_file = alphafill(tar_file_name, pattern)
+          
                 unzipped = os.path.join('uploads', 'unzipped', f'{tar_file_name}.result')
                 # print(unzipped,333333333333333333333333333333333333333333333)
                 AlphaSum.objects.filter(name=data['name']).update(
